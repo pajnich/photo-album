@@ -15,20 +15,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.photoalbum.R;
 import com.example.photoalbum.activities.PhotosActivity;
-import com.example.photoalbum.models.Album;
+import com.example.photoalbum.models.Photo;
 import com.example.photoalbum.models.User;
 import com.google.gson.Gson;
 
 import static com.example.photoalbum.util.General.INTENT_EXTRA_USER;
 
-public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder> {
+public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder> {
     private User user;
     private final RequestOptions options;
 
-    static class AlbumViewHolder extends RecyclerView.ViewHolder {
+    static class PhotoViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
 
-        AlbumViewHolder(CardView cardView) {
+        PhotoViewHolder(CardView cardView) {
             super(cardView);
             this.cardView = cardView;
         }
@@ -38,7 +38,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
         }
     }
 
-    public AlbumsAdapter(User user) {
+    public PhotosAdapter(User user) {
         this.user = user;
         options = new RequestOptions()
                 .fitCenter()
@@ -47,25 +47,23 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
 
     @NonNull
     @Override
-    public AlbumsAdapter.AlbumViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item_album, parent, false);
-        return new AlbumsAdapter.AlbumViewHolder(cardView);
+    public PhotosAdapter.PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item_photo, parent, false);
+        return new PhotosAdapter.PhotoViewHolder(cardView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final AlbumsAdapter.AlbumViewHolder holder, final int position) {
-        final Album album = user.getAlbums().get(position);
+    public void onBindViewHolder(@NonNull final PhotosAdapter.PhotoViewHolder holder, final int position) {
+        final Photo photo = user.getActiveAlbum().getPhoto(position);
         final CardView cardView = holder.getCardView();
         final Context context = cardView.getContext();
 
-        TextView titleTextView = cardView.findViewById(R.id.recyclerview_item_album_title);
-        titleTextView.setText(album.getTitle());
+        TextView titleTextView = cardView.findViewById(R.id.recyclerview_item_photo_title);
+        titleTextView.setText(photo.getTitle());
 
-        ImageView imageView = cardView.findViewById(R.id.recyclerview_item_album_random_image);
+        ImageView imageView = cardView.findViewById(R.id.recyclerview_item_photo_image);
 
-        if (album.getRandomThumbnailUrl() != null) {
-            Glide.with(context).load(album.getRandomThumbnailUrl()).apply(options).into(imageView);
-        }
+        Glide.with(context).load(photo.getThumbnailUrl()).apply(options).into(imageView);
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +72,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
             }
 
             private void openPhotosActivityForClickedAlbumCardView() {
-                user.setActiveAlbumPosition(holder.getAdapterPosition());
                 Intent goToPhotosIntent = new Intent(context, PhotosActivity.class);
                 goToPhotosIntent.putExtra(INTENT_EXTRA_USER, new Gson().toJson(user));
                 context.startActivity(goToPhotosIntent);
@@ -84,7 +81,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
 
     @Override
     public int getItemCount() {
-        return user.getAlbums().size();
+        return user.getActiveAlbum().getPhotos().size();
     }
 
     public void setDataSet(User user) {

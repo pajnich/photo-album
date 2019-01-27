@@ -9,10 +9,6 @@ public class Album {
     private String title;
     private ArrayList<Photo> photos;
 
-    public int getUserId() {
-        return userId;
-    }
-
     public int getId() {
         return id;
     }
@@ -36,5 +32,9 @@ public class Album {
 
     public void setPhotos(ArrayList<Photo> photos) {
         this.photos = photos;
+    }
+
+    public Photo getPhoto(int position) {
+        return photos.get(position);
     }
 }

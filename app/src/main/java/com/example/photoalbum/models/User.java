@@ -6,6 +6,7 @@ public class User {
     private String name;
     private String username;
     private int id;
+    private int activeAlbumPosition;
     private ArrayList<Album> albums;
 
     public int getId() {
@@ -29,5 +30,17 @@ public class User {
 
     public void setAlbums(ArrayList<Album> albums) {
         this.albums = albums;
+    }
+
+    public int getActiveAlbumPosition() {
+        return activeAlbumPosition;
+    }
+
+    public void setActiveAlbumPosition(int activeAlbumPosition) {
+        this.activeAlbumPosition = activeAlbumPosition;
+    }
+
+    public Album getActiveAlbum() {
+        return albums.get(getActiveAlbumPosition());
     }
 }
