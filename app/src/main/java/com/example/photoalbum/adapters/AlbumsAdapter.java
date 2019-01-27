@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.photoalbum.R;
-import com.example.photoalbum.activities.AlbumsActivity;
 import com.example.photoalbum.activities.PhotosActivity;
 import com.example.photoalbum.models.Album;
 import com.example.photoalbum.models.User;
@@ -22,11 +21,10 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import static com.example.photoalbum.util.General.INTENT_EXTRA_ALBUM;
 import static com.example.photoalbum.util.General.INTENT_EXTRA_USER;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder> {
-    private ArrayList<Album> albumsDataSet;
+    private User user;
     private final RequestOptions options;
 
     static class AlbumViewHolder extends RecyclerView.ViewHolder {
@@ -42,8 +40,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
         }
     }
 
-    public AlbumsAdapter(ArrayList<Album> albumsDataSet) {
-        this.albumsDataSet = albumsDataSet;
+    public AlbumsAdapter(User user) {
+        this.user = user;
         options = new RequestOptions()
                 .fitCenter()
                 .error(R.drawable.ic_launcher_foreground);
@@ -58,7 +56,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
 
     @Override
     public void onBindViewHolder(@NonNull final AlbumsAdapter.AlbumViewHolder holder, final int position) {
-        final Album album = albumsDataSet.get(position);
+        final Album album = user.getAlbums().get(position);
         final CardView cardView = holder.getCardView();
         final Context context = cardView.getContext();
 
@@ -79,7 +77,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
 
             private void openPhotosActivityForClickedAlbumCardView() {
                 Intent goToPhotosIntent = new Intent(context, PhotosActivity.class);
-                goToPhotosIntent.putExtra(INTENT_EXTRA_ALBUM, new Gson().toJson(album));
+                goToPhotosIntent.putExtra(INTENT_EXTRA_USER, new Gson().toJson(user));
                 context.startActivity(goToPhotosIntent);
             }
         });
@@ -87,10 +85,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
 
     @Override
     public int getItemCount() {
-        return albumsDataSet.size();
+        return user.getAlbums().size();
     }
 
-    public void setDataSet(ArrayList<Album> users) {
-        this.albumsDataSet = users;
+    public void setDataSet(User user) {
+        this.user = user;
     }
 }

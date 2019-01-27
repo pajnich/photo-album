@@ -30,7 +30,6 @@ import static com.example.photoalbum.util.General.INTENT_EXTRA_USER;
 
 public class AlbumsActivity extends AppCompatActivity {
     private User user;
-    private ArrayList<Album> albums;
     private AlbumsAdapter adapter;
 
     @Override
@@ -43,8 +42,6 @@ public class AlbumsActivity extends AppCompatActivity {
     }
 
     private void initializeFields() {
-        albums = new ArrayList<>();
-
         Intent userIntent = getIntent();
         user = new Gson().fromJson(userIntent.getStringExtra(INTENT_EXTRA_USER), User.class);
     }
@@ -54,7 +51,7 @@ public class AlbumsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AlbumsAdapter(albums);
+        adapter = new AlbumsAdapter(user);
         recyclerView.setAdapter(adapter);
 
         ActionBar actionBar = getSupportActionBar();
@@ -69,15 +66,15 @@ public class AlbumsActivity extends AppCompatActivity {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(API_ENDPOINT_ALBUMS + "?userId=" + user.getId(), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                updateAlbumsListWithResponse(response);
+                updateUserAlbumsWithResponse(response);
             }
 
-            private void updateAlbumsListWithResponse(JSONArray response) {
+            private void updateUserAlbumsWithResponse(JSONArray response) {
                 try {
-                    albums = extractAlbumsFromResponse(response);
-                    adapter.setDataSet(albums);
+                    user.setAlbums(extractAlbumsFromResponse(response));
+                    adapter.setDataSet(user);
                     adapter.notifyDataSetChanged();
-                    downloadAndDisplayAlbumThumbnails(albums);
+                    downloadAndDisplayAlbumThumbnails(user);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(AlbumsActivity.this, getString(R.string.error_parsing_albums), Toast.LENGTH_LONG).show();
@@ -102,11 +99,11 @@ public class AlbumsActivity extends AppCompatActivity {
         RequestQueueSingleton.getInstance(this).addToRequestQueue(jsonArrayRequest);
     }
 
-    private void downloadAndDisplayAlbumThumbnails(ArrayList<Album> albums) {
+    private void downloadAndDisplayAlbumThumbnails(User user) {
         Album album;
         int albumId;
-        for (int i = 0; i < albums.size(); i++) {
-            album = albums.get(i);
+        for (int i = 0; i < user.getAlbums().size(); i++) {
+            album = user.getAlbums().get(i);
             albumId = album.getId();
             downloadPhotosAndDisplayThumbnailForAlbum(albumId, i);
         }
@@ -122,8 +119,8 @@ public class AlbumsActivity extends AppCompatActivity {
             private void updatePhotosForAlbumFromResponse(int albumPosition, JSONArray response) {
                 try {
                     ArrayList<Photo> photos = extractPhotosForAlbumFromResponse(response);
-                    albums.get(albumPosition).setPhotos(photos);
-                    adapter.setDataSet(albums);
+                    user.getAlbums().get(albumPosition).setPhotos(photos);
+                    adapter.setDataSet(user);
                     adapter.notifyItemChanged(albumPosition);
                 } catch (JSONException e) {
                     e.printStackTrace();
