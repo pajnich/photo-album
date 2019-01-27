@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Photo Album</string>
+    <string name="error_parsing_users">Error parsing users</string>
+    <string name="error_fetching_users">Error fetching users</string>
+    <string name="error_parsing_albums">Error parsing albums</string>
+    <string name="error_fetching_albums">Error fetching albums</string>
+    <string name="error_parsing_photos">Error parsing photos</string>
 </resources>

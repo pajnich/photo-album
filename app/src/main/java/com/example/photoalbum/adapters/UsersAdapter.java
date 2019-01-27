@@ -35,8 +35,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         }
     }
 
-    public UsersAdapter(ArrayList<User> myDataSet) {
-        usersDataSet = myDataSet;
+    public UsersAdapter(ArrayList<User> usersDataSet) {
+        this.usersDataSet = usersDataSet;
     }
 
     @NonNull
@@ -51,10 +51,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         final User user = usersDataSet.get(position);
         final CardView cardView = holder.getCardView();
 
-        TextView usernameTextView = cardView.findViewById(R.id.username);
+        TextView usernameTextView = cardView.findViewById(R.id.recyclerview_item_user_username);
         usernameTextView.setText(user.getUsername());
 
-        TextView nameTextView = cardView.findViewById(R.id.name);
+        TextView nameTextView = cardView.findViewById(R.id.recyclerview_item_user_name);
         nameTextView.setText(user.getName());
 
         cardView.setOnClickListener(new View.OnClickListener() {

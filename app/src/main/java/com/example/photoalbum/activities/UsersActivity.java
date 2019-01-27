@@ -41,7 +41,7 @@ public class UsersActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_users);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -68,7 +68,7 @@ public class UsersActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(UsersActivity.this, "Error parsing users", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UsersActivity.this, getString(R.string.error_parsing_users), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -82,7 +82,7 @@ public class UsersActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(UsersActivity.this, "Error fetching users", Toast.LENGTH_LONG).show();
+                Toast.makeText(UsersActivity.this, getString(R.string.error_fetching_users), Toast.LENGTH_LONG).show();
             }
         });
         RequestQueueSingleton.getInstance(this).addToRequestQueue(jsonArrayRequest);
