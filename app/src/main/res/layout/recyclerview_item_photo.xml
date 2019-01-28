@@ -23,10 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/recyclerview_item_photo_image"
-            android:layout_alignTop="@id/recyclerview_item_photo_image"
             android:layout_alignEnd="@id/recyclerview_item_photo_image"
             android:layout_alignBottom="@id/recyclerview_item_photo_image"
             android:gravity="bottom"
+            android:background="@color/gray"
             android:textColor="@color/white" />
     </RelativeLayout>
 

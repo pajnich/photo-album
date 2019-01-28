@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 
 import com.example.photoalbum.R;
 import com.example.photoalbum.adapters.PhotosAdapter;
@@ -56,7 +57,10 @@ public class PhotosActivity extends AppCompatActivity {
     }
 
     private int determineSpanCountBasedOnDeviceDimensions() {
-        return 2;
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (dpWidth / 200);
+        return noOfColumns;
     }
 
     @Override
