@@ -2,9 +2,12 @@ package com.example.photoalbum.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,10 +27,10 @@ public class PhotoActivity extends AppCompatActivity {
     private ImageView imageView;
     private ActionBar actionBar;
     private CardView detailsView;
-    private boolean hudHidden;
     private TextView detailsImageTitle;
     private TextView detailsAlbumTitle;
     private TextView detailsUserName;
+    private GestureDetectorCompat gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,6 @@ public class PhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photo);
         initializeFields();
         initializeViews();
-        setListeners();
         displayData();
     }
 
@@ -45,7 +47,7 @@ public class PhotoActivity extends AppCompatActivity {
         options = new RequestOptions()
                 .fitCenter()
                 .error(R.drawable.ic_launcher_foreground);
-        hudHidden = false;
+        gestureDetector = new GestureDetectorCompat(this, new GestureListener());
     }
 
     private void initializeViews() {
@@ -62,31 +64,53 @@ public class PhotoActivity extends AppCompatActivity {
         }
     }
 
-    private void setListeners() {
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (hudHidden) {
-                    actionBar.show();
-                    detailsView.setVisibility(View.INVISIBLE);
-                    hudHidden = false;
-                } else {
-                    actionBar.hide();
-                    detailsView.setVisibility(View.VISIBLE);
-                    hudHidden = true;
-                }
-            }
-        });
+    private void displayData() {
+        detailsImageTitle.setText(user.getActiveAlbum().getActivePhoto().getTitle());
+        detailsAlbumTitle.setText(user.getActiveAlbum().getTitle());
+        detailsUserName.setText(user.getName());
+        Glide.with(this).load(user.getActiveAlbum().getActivePhoto().getUrl()).apply(options).into(imageView);
     }
 
-    private void displayData() {
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            if (actionBar.isShowing()) {
+                hideHud();
+            } else {
+                showHud();
+            }
+            return false;
+        }
+    }
 
-        Glide.with(this).load(user.getActiveAlbum().getActivePhoto().getUrl()).apply(options).into(imageView);
+    private void hideHud() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        );
+        detailsView.setVisibility(View.GONE);
+    }
+
+    private void showHud() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        detailsView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        gestureDetector.onTouchEvent(motionEvent);
+        return super.onTouchEvent(motionEvent);
     }
 }

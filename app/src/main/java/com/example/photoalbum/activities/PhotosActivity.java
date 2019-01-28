@@ -59,8 +59,8 @@ public class PhotosActivity extends AppCompatActivity {
     private int determineSpanCountBasedOnDeviceDimensions() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        int noOfColumns = (int) (dpWidth / 200);
-        return noOfColumns;
+        int spanCount = (int) (dpWidth / 150);
+        return spanCount;
     }
 
     @Override
