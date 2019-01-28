@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.photoalbum.R;
 import com.example.photoalbum.activities.PhotoActivity;
-import com.example.photoalbum.activities.PhotosActivity;
 import com.example.photoalbum.models.Photo;
 import com.example.photoalbum.models.User;
 import com.google.gson.Gson;
