@@ -8,6 +8,7 @@ public class Album {
     private int id;
     private String title;
     private ArrayList<Photo> photos;
+    private int activePhotoPosition;
 
     public int getId() {
         return id;
@@ -36,5 +37,17 @@ public class Album {
 
     public Photo getPhoto(int position) {
         return photos.get(position);
+    }
+
+    private int getActivePhotoPosition() {
+        return activePhotoPosition;
+    }
+
+    public void setActivePhotoPosition(int activePhotoPosition) {
+        this.activePhotoPosition = activePhotoPosition;
+    }
+
+    public Photo getActivePhoto() {
+        return photos.get(getActivePhotoPosition());
     }
 }

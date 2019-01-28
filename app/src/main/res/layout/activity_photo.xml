@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_photo_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PhotoActivity"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/activity_photo_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="@id/activity_photo_root"
+        app:layout_constraintEnd_toEndOf="@id/activity_photo_root"
+        app:layout_constraintStart_toStartOf="@id/activity_photo_root"
+        android:id="@+id/activity_photo_details">
+
+        <TextView
+            android:id="@+id/activity_photo_details_image_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/activity_photo_details_album_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/activity_photo_details_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

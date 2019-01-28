@@ -70,11 +70,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                user.setActiveAlbumPosition(holder.getAdapterPosition());
                 openPhotosActivityForClickedAlbumCardView();
             }
 
             private void openPhotosActivityForClickedAlbumCardView() {
-                user.setActiveAlbumPosition(holder.getAdapterPosition());
                 Intent goToPhotosIntent = new Intent(context, PhotosActivity.class);
                 goToPhotosIntent.putExtra(INTENT_EXTRA_USER, new Gson().toJson(user));
                 context.startActivity(goToPhotosIntent);

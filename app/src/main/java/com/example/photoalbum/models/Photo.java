@@ -13,4 +13,8 @@ public class Photo {
     public String getThumbnailUrl() {
         return thumbnailUrl;
     }
+
+    public String getUrl() {
+        return url;
+    }
 }

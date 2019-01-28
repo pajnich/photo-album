@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.photoalbum.R;
+import com.example.photoalbum.activities.PhotoActivity;
 import com.example.photoalbum.activities.PhotosActivity;
 import com.example.photoalbum.models.Photo;
 import com.example.photoalbum.models.User;
@@ -68,11 +69,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                user.getActiveAlbum().setActivePhotoPosition(holder.getAdapterPosition());
                 openPhotosActivityForClickedAlbumCardView();
             }
 
             private void openPhotosActivityForClickedAlbumCardView() {
-                Intent goToPhotosIntent = new Intent(context, PhotosActivity.class);
+                Intent goToPhotosIntent = new Intent(context, PhotoActivity.class);
                 goToPhotosIntent.putExtra(INTENT_EXTRA_USER, new Gson().toJson(user));
                 context.startActivity(goToPhotosIntent);
             }

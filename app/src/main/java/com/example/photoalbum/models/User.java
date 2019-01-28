@@ -32,7 +32,7 @@ public class User {
         this.albums = albums;
     }
 
-    public int getActiveAlbumPosition() {
+    private int getActiveAlbumPosition() {
         return activeAlbumPosition;
     }
 
