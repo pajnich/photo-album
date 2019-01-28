@@ -28,6 +28,9 @@ public class Album {
     }
 
     public ArrayList<Photo> getPhotos() {
+        if (photos == null) {
+            photos = new ArrayList<>();
+        }
         return photos;
     }
 
